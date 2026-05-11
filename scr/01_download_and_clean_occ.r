@@ -185,6 +185,7 @@ print(data_gbif)
 # =========================
 # 6) DOWNLOAD INATURALIST DATA
 # =========================
+
 inat_list <- list()
 
 for (sp in species_list) {
@@ -347,7 +348,16 @@ inside <- st_within(
 # - simplify coordinates for visualisation
 # - remove duplicated records
 cur_data <- matrix_full[inside, ] %>%
-  
+
+cur_data <- cur_data %>%
+  dplyr::mutate(
+    countryCode = dplyr::if_else(
+      is.na(countryCode) & source == "inat",
+      location,
+      countryCode
+    )
+  )
+
   dplyr::mutate(
     longitude = round(longitude, 2),
     latitude  = round(latitude, 2)

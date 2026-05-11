@@ -120,8 +120,14 @@ matrix_full_eco_ndvi <- matrix_full_eco %>%
       dplyr::select(occurrence_id, NDVI),
     by = "occurrence_id"
   ) %>%
-  dplyr::filter(!is.na(NDVI), NDVI > 0, NDVI < 1)
-
+  dplyr::filter(
+    !is.na(NDVI), NDVI > 0, NDVI < 1,
+    !is.na(tas_mean_c),
+    !is.na(prec_mean_annual),
+    !is.na(elevation_m),
+    !is.na(ecosystem_code)
+  )
+  
 # =========================
 # 7) VALIDATION CHECKS
 # =========================
