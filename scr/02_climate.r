@@ -10,10 +10,6 @@
 # reproduction, and invasion potential.
 #############################################
 
-# Mean annual temperature and precipitation are extracted because
-# climate strongly influences insect survival, activity, reproduction,
-# and potential invasion range.
-
 # =========================
 # 1) PACKAGES
 # =========================
@@ -236,6 +232,9 @@ print(plot_prec)
 # =========================
 # 9) EXPORT
 # =========================
+
+dir.create("data/processed", showWarnings = FALSE, recursive = TRUE)
+dir.create("inst/figures", showWarnings = FALSE, recursive = TRUE)
 
 # Export the occurrence dataset enriched with climate variables.
 readr::write_csv(

@@ -158,6 +158,9 @@ print(plot_ndvi)
 # 9) EXPORT
 # =========================
 
+dir.create("data/processed", showWarnings = FALSE, recursive = TRUE)
+dir.create("inst/figures", showWarnings = FALSE, recursive = TRUE)
+
 readr::write_csv(
   matrix_full_eco_ndvi,
   "data/processed/final_environmental_dataset_with_ndvi.csv"

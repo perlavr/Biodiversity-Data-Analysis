@@ -7878,6 +7878,8 @@ Vespa crabro,10.77,53.91,2025-05-14,DE,NA,gbif
 Vespa crabro,13.51,53.12,2025-05-02,DE,NA,gbif
 Vespa crabro,11.31,50.72,2025-05-06,DE,NA,gbif
 Vespa crabro,9.96,49.77,2025-05-13,DE,NA,gbif
+Vespa velutina,-9.18,39.14,2025-09-30,NA,"2565-472 Maxial, Portugal",inat
+Vespa velutina,-8.73,38.91,2025-04-09,NA,"Vila Nova de Santo Estêvão CCI 41, 2130-127 Santo Estevão, Portugal",inat
 Vespa velutina,8.74,49.8,2026-04-16,NA,"Ober-Ramstadt-Nieder-Modau Wiesenweg, 64372 Ober-Ramstadt, Deutschland",inat
 Vespa velutina,1.76,47.35,2025-08-08,NA,"41200 Romorantin-Lanthenay, France",inat
 Vespa velutina,-0.75,43.03,2026-04-10,NA,"Arette, Francia",inat
@@ -11160,9 +11162,6 @@ Vespa velutina,7.76,48.58,2025-08-26,NA,"Krutenau, 67000 Strasbourg, France",ina
 Vespa velutina,1.6,41.19,2025-08-28,NA,"43882 Segur de Calafell, Tarragona, Spain",inat
 Vespa velutina,0.54,45.07,2025-08-25,NA,"24110 Grignols, Francia",inat
 Vespa velutina,6.03,47.24,2025-08-28,NA,"25000 Besançon, France",inat
-Vespa velutina,4.82,45.72,2025-08-28,NA,"Lyon, Auvergne-Rhône-Alpes, FR",inat
-Vespa velutina,7.13,50.72,2025-08-28,NA,"Bonn Heinrich-Brüning-Str., 53113 Bonn, Deutschland",inat
-Vespa velutina,-2.23,48.36,2025-08-05,NA,"Trédias, France",inat
 Vespa crabro,10.6,47.87,2025-09-26,NA,"87600 Kaufbeuren-Oberbeuren, Deutschland",inat
 Vespa crabro,16.26,48.14,2025-05-11,NA,"An der Liesing, 1230 Wien, Österreich",inat
 Vespa crabro,13.42,52.63,2024-04-27,NA,"13159 Berlin, Deutschland",inat
@@ -12863,4 +12862,3 @@ Vespa crabro,8.65,50.12,2025-10-02,NA,"60 Frankfurt am Main-Innenstadt II, Deuts
 Vespa crabro,15.38,46.99,2025-10-04,NA,"Premstätten, Steiermark, AT",inat
 Vespa crabro,15.38,46.98,2025-10-04,NA,"Premstätten, Steiermark, AT",inat
 Vespa crabro,-8.62,37.32,2025-10-04,NA,"Monchique, 8550, Portugal",inat
-Vespa crabro,-7.53,40.4,2025-10-04,NA,"6260 Manteigas, Portugal",inat

@@ -135,6 +135,9 @@ print(plot_elevation)
 # 9) EXPORT
 # =========================
 
+dir.create("data/processed", showWarnings = FALSE, recursive = TRUE)
+dir.create("inst/figures", showWarnings = FALSE, recursive = TRUE)
+
 # Export the dataset enriched with climate and elevation variables.
 readr::write_csv(
   species_climate_elev_df,

@@ -202,6 +202,9 @@ if ("Climate_Re" %in% names(species_env_eco_df)) {
 # 12) EXPORT
 # =========================
 
+dir.create("data/processed", showWarnings = FALSE, recursive = TRUE)
+dir.create("inst/figures", showWarnings = FALSE, recursive = TRUE)
+
 # Export the occurrence dataset enriched with ecosystem variables.
 readr::write_csv(
   species_env_eco_df,

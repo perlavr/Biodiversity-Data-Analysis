@@ -31,8 +31,6 @@ library(sf)
 library(conflicted)
 library(readr)
 library(tidyr)
-library(countrycode)
-library(rworldmap)
 
 conflicts_prefer(dplyr::filter)
 conflicts_prefer(dplyr::select)
@@ -315,7 +313,7 @@ matrix_full <- dplyr::bind_rows(
   data_inat
 )
 
-names(matrix_full)
+print(names(matrix_full))
 
 # =========================
 # 9) FINAL EUROPE FILTER
@@ -494,6 +492,9 @@ plot_2025 <- cur_data %>%
 # Simplify coordinates to reduce point overlap in the validation map.
 plot_2025 <- plot_2025 %>%
   
+  # Coordinates are rounded to two decimals to reduce repeated records
+  # from the same local area. This corresponds to approximately 1 km
+  # and is used as a spatial deduplication step.
   dplyr::mutate(
     longitude = round(longitude, 2),
     latitude  = round(latitude, 2)
