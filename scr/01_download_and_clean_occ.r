@@ -315,6 +315,8 @@ matrix_full <- dplyr::bind_rows(
   data_inat
 )
 
+names(matrix_full)
+
 # =========================
 # 9) FINAL EUROPE FILTER
 # =========================
@@ -347,27 +349,18 @@ inside <- st_within(
 # - retain only occurrences located within the European study area
 # - simplify coordinates for visualisation
 # - remove duplicated records
-cur_data <- matrix_full[inside, ] %>%
+cur_data <- matrix_full[inside, ]
 
 cur_data <- cur_data %>%
   dplyr::mutate(
-    countryCode = dplyr::if_else(
-      is.na(countryCode) & source == "inat",
-      location,
-      countryCode
-    )
-  )
-
-  dplyr::mutate(
-    longitude = round(longitude, 2),
-    latitude  = round(latitude, 2)
+    longitude = round(.data$longitude, 2),
+    latitude  = round(.data$latitude, 2)
   ) %>%
-  
   dplyr::distinct(
-    species,
-    longitude,
-    latitude,
-    date_obs,
+    .data$species,
+    .data$longitude,
+    .data$latitude,
+    .data$date_obs,
     .keep_all = TRUE
   )
 
