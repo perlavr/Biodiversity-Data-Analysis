@@ -16,6 +16,9 @@
 # 1) PACKAGES
 # =========================
 
+# install.packages("elevatr")
+# install.packages("raster")
+
 library(dplyr)
 library(readr)
 library(sf)

@@ -166,6 +166,11 @@ readr::write_csv(
   "data/processed/final_environmental_dataset_with_ndvi.csv"
 )
 
+readr::write_csv(
+  matrix_full_eco_ndvi,
+  "data/matrix_full.csv"
+)
+
 ggsave(
   filename = "inst/figures/ndvi_distribution.png",
   plot = plot_ndvi,

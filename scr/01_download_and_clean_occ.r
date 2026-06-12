@@ -22,6 +22,14 @@
 # 1) PACKAGES
 # =========================
 
+# Required packages:
+# rgbif, rnaturalearth, ggplot2, rinat, sf, dplyr, readr, tidyr, conflicted
+# install.packages("rgbif")
+# install.packages("rnaturalearth")
+# install.packages("ggplot2")
+# install.packages("rinat")
+# install.packages("sf")
+
 library(rgbif)
 library(rnaturalearth)
 library(ggplot2)

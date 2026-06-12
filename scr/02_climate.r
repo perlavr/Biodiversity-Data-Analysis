@@ -14,11 +14,17 @@
 # 1) PACKAGES
 # =========================
 
-library(Rchelsa)
+# install.packages("terra")
+# install.packages("dplyr")
+# install.packages("ggplot2")
+# install.packages("readr")
+# install.packages("geodata")
+
 library(terra)
 library(dplyr)
 library(ggplot2)
 library(readr)
+library(geodata)
 
 # =========================
 # 2) STARTING DATASET
@@ -74,11 +80,13 @@ summary(species_df)
 table(species_df$species)
 table(species_df$source)
 
+dir.create("data/raw", showWarnings = FALSE, recursive = TRUE)
+
 # =========================
 # 3) CREATE A SPATIAL OBJECT
 # =========================
 
-# CHELSA extraction requires coordinates.
+# Climate extraction requires coordinates
 # terra::vect() converts the occurrence table into a spatial vector object.
 pts_v <- terra::vect(
   species_df,
@@ -101,81 +109,42 @@ coords_unique <- coords_df %>%
   dplyr::distinct(longitude, latitude, .keep_all = TRUE)
 
 # =========================
-# 4) EXTRACT MONTHLY TEMPERATURE
+# 4) EXTRACT CLIMATE DATA
 # =========================
 
-# CHELSA variable:
-# tas = near-surface air temperature.
-#
-# Data are extracted for 2020 because this year matches the recent
-# occurrence period and is consistent with the MODIS NDVI extraction.
-tas_r <- getChelsa(
-  var       = "tas",
-  coords    = coords_unique %>% dplyr::select(longitude, latitude),
-  startdate = as.Date("2020-01-01"),
-  enddate   = as.Date("2021-01-01"),
-  dataset   = "chelsa-monthly"
+# WorldClim bioclimatic variables are used as climate descriptors.
+# bio1 = annual mean temperature, in °C * 10
+# bio12 = annual precipitation, in mm
+
+clim <- geodata::worldclim_global(
+  var = "bio",
+  res = 10,
+  path = "data/raw"
 )
 
-# Remove the time column and convert monthly values to a matrix.
-tas_mat <- tas_r %>%
-  dplyr::select(-time) %>%
-  as.matrix()
+clim_vars <- clim[[c("wc2.1_10m_bio_1", "wc2.1_10m_bio_12")]]
 
-# Calculate the annual mean temperature for each point.
-# CHELSA temperature is returned in Kelvin, so it is converted to Celsius.
-tas_mean_c <- colMeans(tas_mat, na.rm = TRUE) - 273.15
+names(clim_vars) <- c("bio1_temp", "bio12_prec")
 
-
-# Store temperature values in a table linked by occurrence ID.
-tas_df_unique <- data.frame(
-  occurrence_id = coords_unique$occurrence_id,
-  tas_mean_c = tas_mean_c
+clim_extract <- terra::extract(
+  clim_vars,
+  pts_v
 )
 
-# =========================
-# 5) EXTRACT MONTHLY PRECIPITATION
-# =========================
-
-# CHELSA variable:
-# pr = precipitation.
-#
-# Precipitation is included because humidity and water availability
-# influence habitat suitability, vegetation, and prey availability.
-prec_r <- getChelsa(
-  var       = "pr",
-  coords    = coords_unique %>% dplyr::select(longitude, latitude),
-  startdate = as.Date("2020-01-01"),
-  enddate   = as.Date("2021-01-01"),
-  dataset   = "chelsa-monthly"
-)
-
-# Remove the time column and convert monthly values to a matrix.
-prec_mat <- prec_r %>%
-  dplyr::select(-time) %>%
-  as.matrix()
-
-# Calculate mean precipitation across the 12 monthly values.
-prec_mean <- colMeans(prec_mat, na.rm = TRUE)
-
-# Store precipitation values in a table linked by occurrence ID.
-prec_df_unique <- data.frame(
-  occurrence_id = coords_unique$occurrence_id,
-  prec_mean_annual = as.numeric(prec_mean)
-)
-
-# =========================
-# 6) JOIN CLIMATE VARIABLES
-# =========================
-
-# Join the extracted temperature and precipitation variables
-# back to the occurrence dataset using occurrence_id.
 species_climate_df <- species_df %>%
-  dplyr::left_join(tas_df_unique, by = "occurrence_id") %>%
-  dplyr::left_join(prec_df_unique, by = "occurrence_id")
+  dplyr::bind_cols(clim_extract) %>%
+  dplyr::mutate(
+    tas_mean_c = bio1_temp / 10,
+    prec_mean_annual = bio12_prec
+  ) %>%
+  dplyr::select(
+    -ID,
+    -bio1_temp,
+    -bio12_prec
+  )
 
 # =========================
-# 7) CHECK RESULT
+# 5) CHECK RESULT
 # =========================
 
 # Compare dimensions before and after adding climate variables.
@@ -190,7 +159,7 @@ print(summary(species_climate_df$tas_mean_c))
 print(summary(species_climate_df$prec_mean_annual))
 
 # =========================
-# 8) VALIDATION PLOTS
+# 6) VALIDATION PLOTS
 # =========================
 
 # Validation plot for temperature.
@@ -203,7 +172,7 @@ plot_temp <- species_climate_df %>%
   theme_classic() +
   labs(
     title = "Mean annual temperature at Vespa occurrence points",
-    subtitle = "CHELSA monthly climate data, 2020",
+    subtitle = "WorldClim bioclimatic data",
     x = "Mean annual temperature (°C)",
     y = "Density",
     fill = "Species"
@@ -221,7 +190,7 @@ plot_prec <- species_climate_df %>%
   theme_classic() +
   labs(
     title = "Mean annual precipitation at Vespa occurrence points",
-    subtitle = "CHELSA monthly climate data, 2020",
+    subtitle = "WorldClim bioclimatic data",
     x = "Mean annual precipitation",
     y = "Density",
     fill = "Species"
@@ -230,7 +199,7 @@ plot_prec <- species_climate_df %>%
 print(plot_prec)
 
 # =========================
-# 9) EXPORT
+# 7) EXPORT
 # =========================
 
 dir.create("data/processed", showWarnings = FALSE, recursive = TRUE)

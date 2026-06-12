@@ -15,12 +15,15 @@
 # 1) PACKAGES
 # =========================
 
+# install.packages("sp")
+
 library(dplyr)
 library(readr)
 library(raster)
 library(sf)
 library(rnaturalearth)
 library(ggplot2)
+library(sp)
 
 sf_use_s2(FALSE)
 
