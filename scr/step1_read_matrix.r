@@ -47,6 +47,26 @@ matrix_analysis <- matrix_full %>%
 print(summary(matrix_analysis[, env_vars]))
 print(table(matrix_analysis$species))
 
+species_cols <- c(
+  "Vespa velutina" = "#1B7837",
+  "Vespa crabro" = "#C51B7D"
+)
+
+theme_vespa <- function(base_size = 11) {
+  theme_classic(base_size = base_size) +
+    theme(
+      plot.title = element_text(face = "bold", size = base_size + 2),
+      plot.subtitle = element_text(size = base_size, color = "grey30"),
+      axis.title = element_text(face = "bold"),
+      legend.position = "bottom",
+      legend.title = element_text(face = "bold"),
+      strip.background = element_rect(fill = "grey92", color = NA),
+      strip.text = element_text(face = "bold"),
+      panel.grid.major = element_line(color = "grey90", linewidth = 0.2),
+      panel.grid.minor = element_blank()
+    )
+}
+
 # Interpretation:
 # This cleaned matrix contains the occurrence records for both Vespa species
 # with complete environmental information. The following scripts use these

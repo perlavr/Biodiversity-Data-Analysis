@@ -69,32 +69,29 @@ plot_pca <- ggplot(
   pca_scores,
   aes(x = PC1, y = PC2, color = species, fill = species)
 ) +
-  geom_point(alpha = 0.35, size = 1.6) +
   stat_ellipse(
     geom = "polygon",
-    alpha = 0.18,
+    alpha = 0.16,
     color = NA
   ) +
   geom_point(
-    data = species_centers,
-    aes(x = PC1, y = PC2),
-    size = 5,
-    shape = 21,
-    color = "black",
-    stroke = 1.2
+    alpha = 0.45,
+    size = 1.7
   ) +
-  theme_classic() +
-  scale_color_manual(values = c(
-    "Vespa velutina" = "#1B7837",
-    "Vespa crabro" = "#C51B7D"
-  )) +
-  scale_fill_manual(values = c(
-    "Vespa velutina" = "#1B7837",
-    "Vespa crabro" = "#C51B7D"
-  )) +
+  geom_point(
+    data = species_centers,
+    aes(x = PC1, y = PC2, fill = species),
+    shape = 21,
+    size = 5,
+    color = "black",
+    stroke = 1
+  ) +
+  scale_color_manual(values = species_cols) +
+  scale_fill_manual(values = species_cols) +
+  theme_vespa() +
   labs(
-    title = "Environmental niche space of the two Vespa species",
-    subtitle = "Ellipses show the main environmental space occupied by each species",
+    title = "Environmental niche space of Vespa species",
+    subtitle = "PCA based on temperature, precipitation, elevation and NDVI",
     x = paste0("PC1 (", round(pca_var[1], 1), "%)"),
     y = paste0("PC2 (", round(pca_var[2], 1), "%)"),
     color = "Species",
