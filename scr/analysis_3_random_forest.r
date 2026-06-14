@@ -6,7 +6,7 @@
 # discriminate Vespa velutina from Vespa crabro.
 #############################################
 
-install.packages("randomForest")
+# install.packages("randomForest")
 
 library(dplyr)
 library(randomForest)
@@ -65,9 +65,6 @@ importance_df <- data.frame(
   ) %>%
   dplyr::arrange(desc(Importance))
 
-importance_df <- importance_df %>%
-  arrange(desc(Importance))
-
 print(importance_df)
 
 # =========================
@@ -110,6 +107,9 @@ print(accuracy)
 # 6) EXPORT RESULTS
 # =========================
 
+dir.create("inst/figures", showWarnings = FALSE, recursive = TRUE)
+dir.create("data/processed", showWarnings = FALSE, recursive = TRUE)
+
 write.csv(
   importance_df,
   "data/processed/random_forest_importance.csv",
@@ -126,11 +126,24 @@ ggsave(
 
 # Interpretation:
 #
-# Variables with higher Mean Decrease Gini values contribute more
-# strongly to species discrimination.
+# Temperature was the most important variable for distinguishing
+# Vespa velutina from Vespa crabro, followed by precipitation,
+# elevation and NDVI.
 #
-# If temperature and precipitation dominate the ranking,
-# climatic conditions may be the main drivers of niche differences.
+# This suggests that climatic conditions contribute more strongly
+# to species differentiation than vegetation productivity alone.
 #
-# If NDVI or elevation are highly ranked, habitat structure
-# and topography may play an important role in species distribution.
+# The Random Forest model achieved an overall classification
+# accuracy of approximately 76%, indicating that environmental
+# variables contain useful information for discriminating between
+# the two species.
+#
+# Although the PCA and climatic niche analyses showed substantial
+# overlap between the environmental niches of Vespa velutina and
+# Vespa crabro, the Random Forest results suggest that subtle
+# multivariate differences exist when several environmental
+# variables are considered simultaneously.
+#
+# Overall, the two species occupy broadly similar environments
+# across Europe, but temperature appears to be the strongest
+# environmental factor contributing to their differentiation.

@@ -16,9 +16,9 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 
-matrix_full <- readr::read_csv(
+matrix_full <- read.csv(
   "data/matrix_full.csv",
-  show_col_types = FALSE
+  stringsAsFactors = FALSE
 )
 
 print(names(matrix_full))
